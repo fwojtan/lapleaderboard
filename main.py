@@ -29,9 +29,20 @@ def verify_token():
     if auth.startswith("Bearer "):
         token = auth.split()[1]
         try:
-            claims = id_token.verify_firebase_token(token, HTTP_REQ, audience=Config.PROJECT_ID)  # [1]
+            claims = id_token.verify_firebase_token(
+                token, HTTP_REQ, audience=Config.PROJECT_ID
+            )  # [1]
             g.user = claims  # make claims available to views
         except Exception:
             abort(401, "Invalid token")
     else:
         g.user = None
+
+
+import logging
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    logging.exception("Internal Server Error: %s", e)
+    return "Internal server error", 500

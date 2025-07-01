@@ -8,5 +8,4 @@ automatic_scaling:
 
 env_variables:
   GOOGLE_CLOUD_PROJECT: "lapleaderboard"
-  FIRESTORE_EMULATOR_HOST: ""
   ALLOWED_ADMINS: "finlaywojtan@gmail.com"
