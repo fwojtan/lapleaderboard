@@ -1,0 +1,7 @@
+Flask==3.0.*
+gunicorn
+google-cloud-firestore
+google-cloud-logging
+google-auth
+firebase-admin
+requests

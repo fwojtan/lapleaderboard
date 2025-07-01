@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<ul class="nav nav-tabs" id="carTabs">
+  {% for make in makes %}
+  <li class="nav-item">
+    <a class="nav-link{% if loop.first %} active{% endif %}"
+       href="/car/{{ make }}">{{ make }}</a>
+  </li>
+  {% endfor %}
+</ul>
+<div class="mt-3">
+  <h5>Select a car tab to view the leaderboard.</h5>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ make }} Leaderboard</h2>
+<table class="table table-striped" id="table">
+  <thead><tr><th>Time</th><th>Player</th><th>Wet</th><th>Comment</th></tr></thead>
+  <tbody></tbody>
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script>
+fetch(`/api/leaderboard/{{ make }}`)
+  .then(r => r.json())
+  .then(rows => {
+    const body = document.querySelector("#table tbody");
+    rows.forEach(r => {
+      body.insertAdjacentHTML("beforeend", `
+        <tr>
+          <td>${r.time}</td>
+          <td>${r.player}</td>
+          <td>${r.wet ? '🌧️' : ''}</td>
+          <td>${r.comment || ''}</td>
+        </tr>`);
+    });
+  });
+</script>
+{% endblock %}
