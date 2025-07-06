@@ -1,0 +1,17 @@
+/* Make navbar links white */
+.navbar-dark .nav-link {
+  color: #fff !important;
+}
+
+/* Optional: Change color on hover/active */
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link.active {
+  color: #ffc107 !important; /* Example: Bootstrap yellow */
+}
+
+.vr {
+  border-left: 1px solid #fff;
+  height: 32px;
+  margin: auto 1rem;
+  opacity: 0.25;
+}

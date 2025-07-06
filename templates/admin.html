@@ -8,11 +8,21 @@
   </div>
   <div class="col-md-4">
     <label class="form-label">Car</label>
-    <input type="text" name="car" class="form-control" required>
+    <select name="car" id="carSelect" class="form-select" required>
+      <option value="" disabled selected>Select a car</option>
+      <!-- Populated dynamically -->
+    </select>
   </div>
   <div class="col-md-4">
-    <label class="form-label">Time (seconds)</label>
-    <input type="number" step="0.001" name="time" class="form-control" required>
+    <label class="form-label">Time</label>
+    <div class="input-group">
+      <input type="number" name="minutes" class="form-control" placeholder="mm" min="0" max="59" required>
+      <span class="input-group-text">:</span>
+      <input type="number" name="seconds" class="form-control" placeholder="ss" min="0" max="59" required>
+      <span class="input-group-text">.</span>
+      <input type="number" name="milliseconds" class="form-control" placeholder="ms" min="0" max="999" required>
+    </div>
+    <div class="form-text">Format: mm:ss.mmm</div>
   </div>
   <div class="col-md-12">
     <label class="form-label">Comments</label>

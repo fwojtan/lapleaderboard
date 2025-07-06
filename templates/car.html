@@ -1,22 +1,102 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ make }} Leaderboard</h2>
+<h2>{{ car.displayName }} Leaderboard</h2>
+
+
+<div class="container my-4">
+  <div class="row align-items-center">
+    <!-- Left Column: Stats -->
+    <div class="col-md-6 mb-4 mb-md-0">
+      <div class="mb-3">
+        <label>Speed</label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+               style="width: {{ car.speed * 10 }}%;" 
+               aria-valuenow="{{ car.speed }}" aria-valuemin="0" aria-valuemax="10">
+            {{ car.speed }}/10
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Handling</label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+               style="width: {{ car.handling * 10 }}%;" 
+               aria-valuenow="{{ car.handling }}" aria-valuemin="0" aria-valuemax="10">
+            {{ car.handling }}/10
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Acceleration</label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+               style="width: {{ car.acceleration * 10 }}%;" 
+               aria-valuenow="{{ car.acceleration }}" aria-valuemin="0" aria-valuemax="10">
+            {{ car.acceleration }}/10
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Launch</label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+               style="width: {{ car.launch * 10 }}%;" 
+               aria-valuenow="{{ car.launch }}" aria-valuemin="0" aria-valuemax="10">
+            {{ car.launch }}/10
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label>Braking</label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar" 
+               style="width: {{ car.braking * 10 }}%;" 
+               aria-valuenow="{{ car.braking }}" aria-valuemin="0" aria-valuemax="10">
+            {{ car.braking }}/10
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Image -->
+    <div class="col-md-6 text-center">
+      <img src="{{ url_for('static', filename='images/' ~ car.image) }}"
+           class="img-fluid rounded shadow-sm"
+           style="max-width: 250px; height: auto;"
+           alt="Car">
+    </div>
+  </div>
+</div>
+
+
 <table class="table table-striped" id="table">
-  <thead><tr><th>Time</th><th>Player</th><th>Wet</th><th>Comment</th></tr></thead>
+  <thead><tr><th>Position</th><th>Time</th><th>Player</th><th>Wet</th><th>Comment</th></tr></thead>
   <tbody></tbody>
 </table>
 {% endblock %}
 
 {% block scripts %}
 <script>
-fetch(`/api/leaderboard/{{ make }}`)
+function formatDuration(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+  const milliseconds = Math.round((totalSeconds - Math.floor(totalSeconds)) * 1000);
+  const minStr = minutes.toString().padStart(2, '0')
+  const secStr = seconds.toString().padStart(2, '0');
+  const msStr = milliseconds.toString().padStart(3, '0');
+  return `${minStr}:${secStr}.${msStr}`;
+}
+
+fetch(`/api/leaderboard/{{ car.id }}`)
   .then(r => r.json())
   .then(rows => {
     const body = document.querySelector("#table tbody");
-    rows.forEach(r => {
+    rows.forEach((r, idx) => {
       body.insertAdjacentHTML("beforeend", `
         <tr>
-          <td>${r.time}</td>
+          <td>${idx + 1}</td>
+          <td>${formatDuration(r.time)}</td>
           <td>${r.player}</td>
           <td>${r.wet ? '🌧️' : ''}</td>
           <td>${r.comment || ''}</td>
@@ -25,3 +105,5 @@ fetch(`/api/leaderboard/{{ make }}`)
   });
 </script>
 {% endblock %}
+
+

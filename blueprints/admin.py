@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Blueprint, render_template, request, redirect, url_for, g, abort
 from models import save_lap
 from config import Config
@@ -56,8 +57,14 @@ def admin_login():
 @admin_required
 def submit():
     form = request.form
+    minutes = int(request.form["minutes"])
+    seconds = int(request.form["seconds"])
+    milliseconds = int(request.form["milliseconds"])
+    time = timedelta(  # noqa: F821
+        minutes=minutes, seconds=seconds, milliseconds=milliseconds
+    ).total_seconds()
     lap = {
-        "time": float(form["time"]),  # seconds or ms as float
+        "time": time,  # seconds or ms as float
         "car": form["car"],
         "wet": form.get("wet") == "on",
         "comment": form["comment"].strip(),
